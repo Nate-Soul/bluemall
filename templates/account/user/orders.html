@@ -1,0 +1,90 @@
+{% extends 'account/user/base.html' %}
+
+{% block title %}Manage Your Orders{% endblock title %}
+    
+{% block pre-content %}    
+    <h1 class="h3"> Manage Your Orders </h1>
+    <p class="lead"> Cancel, track and view your orders and transaction history on your dashboard </p>
+    <a class="btn btn-lg btn-primary rounded-5" href="{% url 'account:dashboard' %}" role="button">
+        <span class="bi bi-chevron-double-left"></span> Back to Dashboard
+    </a>
+{% endblock pre-content %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header bg-white">
+            <h2 class="card-title"> Your Orders </h2>
+        </div>
+        <div class="card-body">
+        {% if orders %}
+        {% for order in orders %}
+        <div class="card card-body mb-4">
+            <div class="d-flex justify-content-between border-bottom">
+                <h6 class="h6 card-title">{{ order.order_key }}</h6>
+                <div class="dropdown">
+                    <a class="dropdown-toggle card-link" href="javascript:void()" data-bs-toggle="dropdown">
+                        Order Details
+                    </a>
+                    <div class="dropdown-menu">
+                        <ul class="dropdown-item">
+                            <li class="dropdown-item">Amount Paid: USD{{ order.total_paid }}</li>
+                            <li class="dropdown-item">Paid Using {{ order.payment_option }}</li>
+                            <li class="dropdown-item">On {{ order.created }}</li>
+                            <li class="dropdown-item">By {{ order.full_name }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a class="dropdown-toggle card-link" href="javascript:void()" data-bs-toggle="dropdown">
+                        Contact Details
+                    </a>
+                    <div class="dropdown-menu">
+                        <ul class="dropdown-item">
+                            <li class="dropdown-item">{{ order.email }}</li>
+                            <li class="dropdown-item">{{ order.phone }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a class="dropdown-toggle card-link" href="javascript:void()" data-bs-toggle="dropdown"> Dispatch Address </a>
+                    <div class="dropdown-menu">
+                        <address class="dropdown-item">
+                            {{ order.address_1 }}, {{ order.address_2 }},<br>
+                            ({{ order.postal_code }}) - {{ order.city }},
+                            {{ order.country_code }}.
+                        </address>
+                    </div>
+                </div>
+            </div>
+            {% for item in order.items.all %}
+            <div class="d-flex mt-3 justify-content-between">
+                <figure class="figure text-center">
+                    {% for image in item.product.product_image.all %}
+                    {% if image.is_feature %}
+                    <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" width="100" height="100">
+                    {% endif %}
+                    {% endfor %}
+                    <figcaption>
+                        <a href="{{ item.product.get_absolute_url }}">
+                            <h6 class="h6">{{ item.product.title| title }}</h6>
+                        </a>
+                    </figcaption>
+                </figure>
+                <div class="btns">
+                    <a href="#" class="btn btn-primary w-100 my-1">Leave Review</a>
+                    <a href="#" class="btn btn-warning w-100 my-1">Problem With Order</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        {% else %}
+            <div class="alert alert-info">
+                You've not made any orders yet! Start adding items to your cart to continue.
+            </div>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,37 @@
+a{
+    text-decoration: none !important;
+}
+.table-cart tbody{
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+.table-cart td, .table-cart th{
+    vertical-align: middle;
+}
+.brt-0{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.brb-0{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.btn:focus{
+    box-shadow: none;
+    outline: none;
+}
+.br-0{
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+}
+.rounded-5 {
+    border-radius: 2rem;
+    -webkit-border-radius: 2rem;
+    -moz-border-radius: 2rem;
+    -ms-border-radius: 2rem;
+    -o-border-radius: 2rem;
+}

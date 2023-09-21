@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title-content %}
+    {% if product %}
+        {{ product.title | title }}
+    {% else %}
+        Products
+    {% endif %}
+{% endblock title-content %}
+
+{% block content %}
+    {% include '../inc/_messages.html' %}
+    <aside class="col-md-6 mb-md-0 mb-4">
+        <div class="card card-body">
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    {% for image in product.product_image.all  %}
+                    <figure class="carousel-item {% if image.is_feature %} active {% endif %}">
+                        <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="img-fluid">
+                    </figure>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+    <main class="col-md-6">
+        <div class="card card-body product-short-detail mb-4 p-4">
+            <h4 class="card-title prim-color"> {{ product.title }} </h4>
+            <p class="card-text desc">{{ product.description|slice:"355" }}</p>
+            <p class="qty">
+                <label for="select">Quantity</label>
+                <select name="select_qty" id="selectQty" class="custom-select">
+                    <optgroup>
+                        <option value="1"> 1 </option>
+                        <option value="2"> 2 </option>
+                        <option value="3"> 3 </option>
+                        <option value="4"> 4 </option>
+                        <option value="5"> 5 </option>
+                    </optgroup>
+                </select>
+            </p>
+            <p class="card-text details">
+                <strong> Price </strong> &#8358; {{ product.discount_price }} <br>
+                <strong> Category: </strong> {{ product.category }} <br>
+                <strong> Availability: </strong> 
+                {% if product.is_active %}In Stock {% else %} Out of Stock {% endif %}<br><br>
+                <button id="addToCartBtn" type="button" value="{{ product.id }}" 
+                class="btn btn-primary btn-lg rounded-5 me-1">
+                    <span class="bi bi-cart-plus"></span> Add to cart
+                </button>
+                <a id="addToWishlistBtn" href="{% url 'account:add_to_wishlist' product.id %}" 
+                class="btn btn-outline-secondary btn-lg rounded-5 ms-1">
+                    <span class="bi bi-heart"></span> Add to wishlist
+                </a>
+        </div>
+    </main>
+{% endblock content %}
+
+
+{% block section %}
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav>
+                        <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Product Description</button>
+                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Product Reviews</button>
+                        </div>
+                  </nav>
+                  <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                      <p><strong>This is some placeholder content the Home tab's associated content.</strong> Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling. You can use it with tabs, pills, and any other <code>.nav</code>-powered navigation.</p>
+                    </div>
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                      <p><strong>This is some placeholder content the Profile tab's associated content.</strong> Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling. You can use it with tabs, pills, and any other <code>.nav</code>-powered navigation.</p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-4">
+        <div class="container">
+            <div class="row">
+                <h3 class="h3 mb-5">Related Products</h3>
+                <div class="col-md-4">
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock section %}
+
+{% block script-content %}
+<script src="{% static 'js/cart.js' %}"></script>
+{% endblock script-content %}
+    

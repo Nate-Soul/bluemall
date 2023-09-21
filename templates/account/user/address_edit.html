@@ -1,0 +1,35 @@
+{% extends 'account/user/base.html' %}
+
+{% block title %} Edit Your Profile {% endblock title %}
+    
+{% block pre-content %}    
+    <h1 class="h3">Manage Your Addresses</h1>
+    <p class="lead"> Add, delete and view your addresses on your dashboard </p>
+    <a class="btn btn-lg btn-primary rounded-5" href="{% url 'account:dashboard' %}" role="button">
+        <span class="bi bi-chevron-double-left"></span> Back to Dashboard
+    </a>
+    <a class="btn btn-lg btn-success rounded-5" href="{% url 'account:addresses' %}" role="button">
+        <span class="bi bi-arrow-left"></span> Back
+    </a>
+{% endblock pre-content %}
+
+{% block content %}
+    <main class="col-md-7 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"> Edit Address </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ address_edit_form.as_p }}
+            </div>
+            <div class="card-footer">
+                    <a href="{% url 'account:addresses' %}" class="btn btn-lg btn-secondary rounded-5"> Cancel </a>
+                    <button type="submit" class="btn btn-lg btn-primary rounded-5">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
+    

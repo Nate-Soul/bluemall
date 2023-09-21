@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title-content %}Status{% endblock title-content %}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+    <script>
+        window.location.href = '{% url "account:dashboard" %}';
+    </script>    
+{% endif %}
+    
+<div class="col-12 col-md-7 mx-auto py-5">
+    {% if 'email-confirmed' in request.get_full_path %}
+    <h3 class="h3 mb-2">Email Sent Successfully</h3>
+    <hr class="hr mb-4">
+    <p class="text-muted small">
+        An email to help you reset your password has been sent to your email address associated with this site {{ site_name }}.
+    </p>
+    {% elif 'completed' in request.get_full_path %}
+    <h3 class="h3 mb-2">Password Reset Successful </h3>
+    <hr class="hr mb-4">
+    <p class="text-muted small">
+        Your password has been successfully reset, you can now login.
+    </p>
+    {% elif 'registration-successful' in request.get_full_path %}
+    <h3 class="h3 mb-2">Account Registration Successful! </h3>
+    <hr class="hr mb-4">
+    <p class="text-muted small">
+        An activation code has been sent to your email to help activate your account.
+    </p>
+    {% endif %}
+    <hr class="hr my-3">
+    <p class="text-left">
+        <a href="{% url 'account:login' %}">Login |</a>
+        <a href="{% url 'account:register' %}"> Register |</a>
+        <a href="{% url 'store:home' %}"> Continue Shopping |</a>
+    </p>
+</div>    
+{% endblock content %}

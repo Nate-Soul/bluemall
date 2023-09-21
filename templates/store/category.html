@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title-content %}
+    {% if category %}
+        {{ category.name | title }}
+    {% else %}
+        Products
+    {% endif %}
+{% endblock title-content %}
+
+{% block content %}
+    <main class="col-md-8">
+        {% include '../inc/_messages.html' %}
+        <h2 class="h5 mb-4">{{ category.name | title }}</h2>
+        {% if products.count > 0 %}
+        <div class="row">
+        {% for product in products %}
+        <!--PRODUCT CARD-->
+            <div class="col-md-3 col-sm-6 col-xs-12 my-3">
+                <figure class="card card-body product-card border-0 shadow-sm">
+                {% for image in product.product_image.all %}{% if image.is_feature  %}
+                <a href="{{ product.get_absolute_url }}">
+                    <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="img-fluid">
+                </a>
+                {% endif %}{% endfor %}
+                <figcaption>
+                    <a href="{{ product.get_absolute_url }}">
+                    <h5 class="h5 title fw-bold"> {{ product.title|title }} </h5>
+                    </a>
+                    <p class="price mb-0">
+                    <span class="regular-price text-decoration-line-through">&dollar;{{ product.price }}</span>&nbsp;
+                    <span class="discount-price fw-bold">&dollar;{{ product.discount_price }}</span>
+                    </p>
+                    <div class="row my-3">
+                    <div class="col-6">
+                        <button type="button" role="button" class="btn btn-primary btn-sm add-to-cart-btn w-100" 
+                        data-index="{{ product.id }}">
+                        <span class="bi bi-cart-plus"></span><br> Add to Cart
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <a type="button" href="{% url 'account:add_to_wishlist' product.id %}" 
+                        class="btn btn-outline-secondary btn-sm w-100 add-to-wishlist-btn">
+                        <span class="bi bi-heart"></span><br> Add to Wishlist
+                        </a>
+                    </div>
+                    </div>
+                </figcaption>
+                </figure>
+            </div>
+          <!--PRODUCT CARD ENDS-->
+        {% endfor %}        
+        {% else %}
+            <div class="alert alert-info">
+                Products in this category are unavailable, please revisit at your convenience.
+            </div>
+        </div>
+        {% endif %}
+    </main>
+{% endblock content %}
+
+{% block script-content %}
+    <script src="{% static 'js/cart.js' %}"></script>
+{% endblock script-content %}

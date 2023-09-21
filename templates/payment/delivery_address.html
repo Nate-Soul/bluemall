@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title-content %} Delivery Address {% endblock title-content %}
+
+{% block content %}
+<main class="col-md-9">
+    <h4 class="h4 text-uppercase"> Delivery Address </h4>
+    <p>Add or select the delivery address most comfortable for you</p>
+    <hr class="hr mb-4">
+    {% include '../inc/_messages.html' %}
+    {% if addresses.count > 0 %}
+        {% for address in addresses %}
+        <div class="card card-body mb-4">
+            <div class="row g-0">
+                <div class="col-2 d-flex align-items-center justify-content-center">
+                    <span class="bi bi-pin fs-2 {% if address.default %}text-primary{% endif %}"></span>
+                </div>
+                <div class="col-10 ps-md-1">
+                    <div class="card-body">
+                        {% if address.default %}<h5 class="fw-bold h5">Default Address</h5>{% else %}
+                        <h5 class="fw-bold h5">Other Address</h5>{% endif %}
+                        <address class="address">
+                            {{ address.address_line_1 }}, {{ address.address_line_2 }}, {{ address.town }},
+                            {{ address.state }} ({{ address.postcode }}), {{ address.country.name }}.
+                        </address>
+                        <p class="card-text">{{ address.phone }}</p>
+                        <a href="{% url 'account:edit_address' address.id %}" class="card-link">
+                            <span class="bi bi-pen"></span> Edit Address
+                        </a>
+                        {% if not address.default %}
+                        <a href="{% url 'account:set_default_address' address.id %}" class="card-link">
+                            <span class="bi bi-pen"></span> Select Address
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">
+            No addresses added on your account. <a href=" {% url 'account:addresses' %}">Add address here </a>
+        </div>
+    {% endif %}
+</main>
+<aside class="col-md-3">
+    <div class="d-flex bd-highlight">
+        <div class="p-2 flex-grow-1 bd-highlight">Sub Total:</div>
+        <div class="p-2 bd-highlight">
+            <span class="fw-bold h5">$</span>
+            <span id="subTotal" class="fw-bold h5">{{ cart.get_sub_total }}</span>
+        </div>
+    </div>
+    <div class="d-flex bd-highlight">
+        <div class="p-2 flex-grow-1 bd-highlight">Delivery Fee:</div>
+        <div class="p-2 bd-highlight">
+            <span class="fw-bold h5">$</span>
+            <span id="deliveryFee" class="fw-bold h5">{{ cart.get_delivery_fee }}</span>
+        </div>
+    </div>
+    <div class="d-flex bd-highlight">
+        <div class="p-2 flex-grow-1 bd-highlight">Total:</div>
+        <div class="p-2 bd-highlight">
+            <span class="fw-bold h5">$</span>
+            <span id="total" class="fw-bold h5">{{ cart.get_final_price }}</span>
+        </div>
+    </div>
+    <a href="{% url 'payment:payment_options' %}" class="btn btn-success w-100">Pay Securely</a>
+</aside>
+{% endblock content %}
+
+{% block script-content %}
+    <script>
+        var token = "{{ csrf_token }}";
+    </script>
+    <script src="{% static 'js/payment.js' %}"></script>
+{% endblock script-content %}

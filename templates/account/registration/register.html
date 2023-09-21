@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title-content %} Create an Account {% endblock title-content %}
+    
+{% block content %}
+<div class="col-12 col-md-7 mx-auto py-5">
+    <form action="." method="POST">
+        {% csrf_token %}
+        <h3 class="h3 mb-2">Create a free account</h3>
+        <hr class="hr mb-4">
+        {% if form.errors %}
+        <ul class="list-unstyled text-danger">
+            <li class="text-warning"> please check the following and try again: </li>
+            {% for field in form %}
+                {% if field.errors %}
+                <li class="list-item">{{ field.errors|striptags }}</li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="mb-3">
+            <label>{{ form.name.label }}
+                <span class="text-muted small">({{ form.name.help_text }})</span>
+            </label>
+            {{ form.name }}
+        </div>
+        <div class="mb-3">
+            <label>{{ form.email.label }}
+                <span class="text-muted small">({{ form.email.help_text }})</span>
+            </label>
+            {{ form.email }}
+        </div>
+        <div class="mb-3">
+            <label>{{ form.password.label }}
+                <span class="text-muted small">({{ form.password.help_text }})</span>
+            </label>
+            {{ form.password }}
+        </div>
+        <div class="mb-3">
+            <label>{{ form.password2.label }}
+                <span class="text-muted small">({{ form.password2.help_text }})</span>
+            </label>
+            {{ form.password2 }}
+        </div>
+        <button type="submit" class="btn btn-primary">Create Account</button>
+    </form>
+    <hr class="hr mt-4 mb-3">
+    <p class="text-left">
+        Already have an account? 
+        <a href="{% url 'account:login' %}">Login</a>
+</div>    
+{% endblock content %}

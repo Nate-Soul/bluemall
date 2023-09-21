@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="col-md-6 mx-auto">
+        <h2 class="h3 mb-2">Order Successful</h2>
+        <hr class="hr mb-4">
+        <p class="lead">
+            Your order has been placed and is being processed. Visit your <a href="{% url 'account:orders' %}">dashboard</a> to view your orders.
+        </p>
+        <a href="{% url 'store:home' %}">Continue Shopping</a>
+    </div>
+{% endblock content %}
+    

@@ -1,0 +1,86 @@
+{% load static %}<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Nate Soul">
+    <title>{% block title %}{% endblock title %}</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/bootstrap-icons.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/dashboard/dashboard.css' %}" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark static-bottom ">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'store:home' %}">BluemalL</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account:dashboard' %}">
+                                <span class="bi bi-speedometer2"></span> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'cart:cart' %}">
+                                <span class="bi bi-cart4"></span> Your Cart
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              {% if request.user.is_authenticated %}
+                              <span class="bi bi-person-circle"></span> Howdy {{ user.name }}{% endif %}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'account:orders' %}">Your Orders</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'account:addresses' %}">Your Addresses</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'account:wishlists' %}">Your Wishlist</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'account:profile-edit' %}">Your Account</a>
+                                </li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li>
+                                <a class="dropdown-item" href="{% url 'account:logout' %}">Logout</a>
+                              </li>
+                            </ul>
+                          </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <main class="container">
+            <div class="bg-light p-5 rounded mt-3">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        {{ message | safe }}
+                    </div>
+                    {% endfor %} 
+                {% endif %}
+                {% block pre-content %}{% endblock pre-content %}
+            </div>
+        </main>
+    </header>
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                {% block content %}{% endblock content %}
+            </div>
+        </div>
+    </section>
+        {% block modal-content %}{% endblock modal-content %}
+        <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>  
+        <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js.map' %}"></script>  
+    </body>
+</html>

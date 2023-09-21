@@ -1,0 +1,64 @@
+{% extends 'account/user/base.html' %}
+
+{% block title %}Dashboard{% endblock title %}
+    
+{% block pre-content %}
+    <h1 class="h3">Welcome Back @{{ request.user.user_name }} </h1>
+    <p class="lead"> Our exquisite dashboard allows you to manage your orders, payment and enjoy exclusive offers.</p>
+    <a class="btn btn-lg btn-primary rounded-5" href="{% url 'account:profile-edit' %}" role="button">
+        <span class="bi bi-pen"></span> Edit Profile
+    </a>
+{% endblock pre-content %}
+
+
+{% block content %}
+        <div class="col-md-4 col-sm-6 col-xs-12 d-flex align-items-start my-4">
+                <div class="icon-square icon bg-light text-dark flex-shrink-0 me-3">
+                    <i class="bi bi-gift"></i>
+                </div>
+                <div>
+                    <h2>Orders</h2>
+                    <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                    <a href="{% url 'account:orders' %}" class="btn btn-lg btn-primary rounded-5">
+                        View Orders
+                    </a>
+                </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 d-flex align-items-start my-4">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="bi bi-truck"></i>
+            </div>
+            <div>
+                <h2>Addresses</h2>
+                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                <a href="{% url 'account:addresses' %}" class="btn btn-lg btn-primary rounded-5">
+                    Manage Addresses
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 d-flex align-items-start my-4">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="bi bi-shield-lock"></i>
+            </div>
+            <div>
+                <h2>Account &amp; Security</h2>
+                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                <a href="{% url 'account:profile-edit' %}" class="btn btn-lg btn-primary rounded-5">
+                    Manage Account
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 d-flex align-items-start my-4">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="bi bi-heart"></i>
+            </div>
+            <div>
+                <h2>Wishlist</h2>
+                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                <a href="{% url 'account:wishlists' %}" class="btn btn-lg btn-primary rounded-5">
+                    View Wishlist
+                </a>
+            </div>
+        </div>
+{% endblock content %}
+    

@@ -1,0 +1,77 @@
+{% extends 'account/user/base.html' %}
+
+{% block title %}Manage Your Wishlist{% endblock title %}
+    
+{% block pre-content %}    
+    <h1 class="h3">Manage Your Wishlists</h1>
+    <p class="lead"> View and manage your wishlists on your dashboard </p>
+    <a class="btn btn-lg btn-primary rounded-5" href="{% url 'account:dashboard' %}" role="button">
+        <span class="bi bi-chevron-double-left"></span> Back to Dashboard
+    </a>
+{% endblock pre-content %}
+
+{% block content %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-header bg-white">
+            <h4 class="card-title text-uppercase"> Your Wishlists </h4>
+        </div>
+        <div class="card-body">
+        {% if wishlists.count > 0 %}
+        <div class="row">
+            {% for wishlist in wishlists %}
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card">
+                    <div class="row g-0">
+                        <figure class="col-md-4">
+                            {% for image in wishlist.product_image.all  %}
+                            {% if image.is_feature %}
+                            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="img-fluid d-block">
+                            {% endif %}
+                            {% endfor %}
+                        </figure>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ wishlist.title }}</h6>
+                                <p class="card-text small text-muted">USD{{ wishlist.discount_price }}</p>
+                                <p class="card-text">{{ wishlist.description }}</p>
+                                <a href="{% url 'account:add_to_wishlist' wishlist.id %}" class="btn btn-sm btn-primary">Remove From Wishlist</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="alert alert-info">
+                No product has been added to your wishlist.
+            </div>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block modal-content %}
+<div class="modal fade" id="addAddressModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add an Address</h4>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ address_form.as_p }}
+            </div>
+            <div class="modal-footer">
+                    <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-lg btn-success">Add Address</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modal-content %}

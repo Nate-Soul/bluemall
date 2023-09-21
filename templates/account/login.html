@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+                      
+{% block title-content %} Login to Your Account {% endblock title-content %}    
+
+{% block content %}
+<div class="col-12 col-md-5 mx-auto py-5">
+    <h3 class="h3 mb-2">Login</h3>
+    <hr class="hr mb-4">
+    {% include '../inc/_messages.html' %}
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        Email Address or Password is incorrect!
+    </div>
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+       <div class="form-group mb-3">
+            <label for="id_{{ form.username.name }}" class="form-label">
+                {{ form.username.label }}
+            </label>
+            {{ form.username }}
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_{{ form.password.name }}" class="form-label">
+                {{ form.password.label }}
+            </label>
+            {{ form.password }}
+        </div>
+        <div class="d-flex mb-3">
+            <a href="{% url 'account:reset-password' %}">Forgotten Password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    <hr class="hr my-3">
+    <p class="text-left">
+        Don't have an account?
+        <a href="{% url 'account:register' %}">Register</a> for free.
+</div>    
+{% endblock content %}
