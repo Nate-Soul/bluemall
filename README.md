@@ -22,7 +22,7 @@ This project is a full-stack e-commerce website built using Python's Django fram
 * User registration and login
 * Product browsing by category and search
 * Detailed product pages with descriptions, images, and variations
-* Shopping cart management (add, remove, update quantities)
+* Shopping cart & Wishlist management (add, remove, update quantities)
 * Secure checkout process with PayPal integration
 * Order history and tracking
 * Customized Django Admin panel
